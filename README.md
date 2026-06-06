@@ -7,6 +7,8 @@
 ---
 <img width="1273" height="666" alt="image" src="https://github.com/user-attachments/assets/e02dfa53-9865-403f-95ca-e32e15b5b85b" />
 
+<img width="2542" height="1350" alt="image" src="https://github.com/user-attachments/assets/58d68a69-221b-4089-a6d5-27172962cfa4" />
+
 ## 功能模块
 
 | 模块 | 说明 |
