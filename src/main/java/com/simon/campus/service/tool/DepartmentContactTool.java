@@ -5,6 +5,8 @@ import com.simon.campus.mapper.DepartmentContactMapper;
 import com.simon.campus.model.entity.DepartmentContact;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
@@ -20,7 +22,18 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DepartmentContactTool {
 
-    private final DepartmentContactMapper mapper; // 部门联系方式数据库 Mapper
+    private final DepartmentContactMapper mapper;
+
+    /**
+     * Spring AI 工具方法：查询部门联系方式
+     */
+    @Tool(description = "查询院系或行政部门联系方式")
+    public ToolResult queryDepartmentContact(
+            @ToolParam(description = "部门名称，如教务处、计算机学院，不填则返回所有") String department) {
+        ToolResult result = query(department);
+        ToolResultCapture.set(result);
+        return result;
+    }
 
     /**
      * 查询部门联系方式：按部门名称或代码模糊查询，不填则返回全部

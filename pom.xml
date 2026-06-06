@@ -26,7 +26,31 @@
         <tika.version>2.9.2</tika.version>
         <pdfbox.version>2.0.31</pdfbox.version>
         <hutool.version>5.8.29</hutool.version>
+        <spring-ai.version>1.0.0</spring-ai.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- Spring Boot Web -->
@@ -162,16 +186,12 @@
             <scope>test</scope>
         </dependency>
 
-        <!--
-        Spring AI 1.0+ (Phase 3 - uncomment when ready)
-        If Alibaba Cloud Maven mirrors fail:
-          在 ~/.m2/settings.xml 的 mirrors 中给 mirrorOf 加上 !spring-milestones 排除
+        <!-- Spring AI OpenAI Starter (DashScope 兼容) -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
+            <artifactId>spring-ai-starter-model-openai</artifactId>
+            <version>${spring-ai.version}</version>
         </dependency>
-        -->
     </dependencies>
 
     <build>
@@ -191,9 +211,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>

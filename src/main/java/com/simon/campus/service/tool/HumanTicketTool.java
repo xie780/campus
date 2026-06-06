@@ -4,6 +4,8 @@ import com.simon.campus.model.entity.HumanTicket;
 import com.simon.campus.service.admin.HumanHandoffService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,19 +20,42 @@ import java.util.Map;
 @Slf4j
 public class HumanTicketTool {
 
-    private final HumanHandoffService handoffService; // 人工转接服务
+    private final HumanHandoffService handoffService;
+
+    /**
+     * Spring AI 工具方法：创建人工客服工单
+     */
+    @Tool(description = "创建人工客服工单，转接给老师处理")
+    public ToolResult createHumanTicket(
+            @ToolParam(description = "问题摘要，描述用户的问题或诉求") String summary,
+            @ToolParam(description = "紧急程度：HIGH/MEDIUM/LOW") String urgency) {
+        ToolResult result = create(null, null, summary, urgency);
+        ToolResultCapture.set(result);
+        return result;
+    }
 
     /**
      * 创建人工客服工单：解析紧急程度，调用转接服务创建工单
      */
     public ToolResult create(String sessionId, Long userId, String summary, String urgency) {
         try {
-            String resolvedUrgency = urgency == null ? "MEDIUM" : // 默认中等紧急程度
+            String resolvedUrgency = "MEDIUM";
+            if (urgency != null) {
                 switch (urgency.toLowerCase()) {
-                    case "high", "高", "紧急" -> "HIGH"; // 高紧急程度
-                    case "low", "低" -> "LOW"; // 低紧急程度
-                    default -> "MEDIUM"; // 中等紧急程度
-                };
+                    case "high":
+                    case "高":
+                    case "紧急":
+                        resolvedUrgency = "HIGH";
+                        break;
+                    case "low":
+                    case "低":
+                        resolvedUrgency = "LOW";
+                        break;
+                    default:
+                        resolvedUrgency = "MEDIUM";
+                        break;
+                }
+            }
 
             HumanTicket ticket = handoffService.requestHandoff(sessionId, userId, summary, resolvedUrgency, false); // 创建工单
 

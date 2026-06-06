@@ -5,6 +5,7 @@ import com.simon.campus.model.dto.RecallCandidate;
 import com.simon.campus.model.entity.AgentLog;
 import com.simon.campus.service.rag.*;
 import com.simon.campus.service.ingest.VisibilityPolicy;
+import com.simon.campus.service.tool.SpringAiToolCaller;
 import com.simon.campus.service.tool.ToolCaller;
 import com.simon.campus.service.tool.ToolResult;
 import com.simon.campus.session.SessionContext;
@@ -35,7 +36,8 @@ public class AgentOrchestrator {
     private final RagGenerator ragGenerator; // RAG 生成器
     private final IntentRouter intentRouter; // 意图路由器
     private final AgentLogService agentLogService; // Agent 日志服务
-    private final ToolCaller toolCaller; // 工具调用器
+    private final ToolCaller toolCaller; // 传统工具调用器（兼容保留）
+    private final SpringAiToolCaller springAiToolCaller; // Spring AI 工具调用器
 
     /**
      * 编排结果：包含回答、意图、来源引用、FAQ 短路标记和工具调用结果
@@ -96,7 +98,8 @@ public class AgentOrchestrator {
                 answer = ragGenerator.chitchatStream(mergedQuery, session, onToken); // 闲聊生成
             } else if ("ACADEMIC_TOOL".equals(intent)) { // 意图为学术工具调用
                 log.info("[AGENT_FLOW] session={} step=tool_call", session.getSessionId());
-                ToolCaller.ToolCallResult tcr = toolCaller.call(mergedQuery, session, onToken); // 调用工具
+                // 优先使用 Spring AI 工具调用
+                SpringAiToolCaller.ToolCallResult tcr = springAiToolCaller.call(mergedQuery, session, onToken);
                 answer = tcr.answer(); // 获取回答
                 toolResult = tcr.toolResult(); // 获取工具结果
                 if (toolResult != null) logEntry.setHitDocs("TOOL:" + toolResult.getToolName()); // 记录命中文档

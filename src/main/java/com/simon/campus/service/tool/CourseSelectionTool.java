@@ -5,6 +5,8 @@ import com.simon.campus.mapper.CourseSelectionScheduleMapper;
 import com.simon.campus.model.entity.CourseSelectionSchedule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
@@ -21,8 +23,19 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CourseSelectionTool {
 
-    private final CourseSelectionScheduleMapper mapper; // 选课安排数据库 Mapper
-    private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"); // 日期格式化器
+    private final CourseSelectionScheduleMapper mapper;
+    private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+    /**
+     * Spring AI 工具方法：查询选课安排
+     */
+    @Tool(description = "查询选课安排，包括各轮选课和退课时间")
+    public ToolResult queryCourseSelection(
+            @ToolParam(description = "学期，格式如 2025-2026-2，不填则查当前学期") String term) {
+        ToolResult result = query(term);
+        ToolResultCapture.set(result);
+        return result;
+    }
 
     /**
      * 查询选课安排：按学期查询各轮选课阶段，默认查询当前学期
