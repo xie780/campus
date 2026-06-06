@@ -5,9 +5,9 @@
 **技术栈**：Java 17 · Spring Boot 3.3 · Vue 3 · Milvus 2.4 · MySQL 8 · Redis 7 · MinIO · DashScope (通义千问)
 
 ---
-<img width="1273" height="666" alt="image" src="https://github.com/user-attachments/assets/e02dfa53-9865-403f-95ca-e32e15b5b85b" />
+<img width="2559" height="1348" alt="image" src="https://github.com/user-attachments/assets/7d995f11-2937-4d8e-91ae-02022e7b3c0b" />
+<img width="2548" height="1346" alt="image" src="https://github.com/user-attachments/assets/750eb2d5-294a-4b2a-9cef-a617e9078181" />
 
-<img width="2542" height="1350" alt="image" src="https://github.com/user-attachments/assets/58d68a69-221b-4089-a6d5-27172962cfa4" />
 
 ## 功能模块
 
