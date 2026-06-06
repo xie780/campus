@@ -1,10 +1,13 @@
 # SmartCampus 校园智能问答系统
 
-基于 **RAG + Agent** 的高校政策/教务智能助手，毕设交付项目。
+面向高校学生的校园智能问答与教务服务平台，覆盖政策咨询、选课/考试/校历查询、知识库问答、FAQ 快速命中、复杂问题转人工等核心场景。项目基于 RAG + Agent + 多模态文档理解 架构，打通文档解析、混合检索、流式生成、图片内容理解、人工协同和数据看板，提升校园服务的响应效率、答案准确性与来源可追溯性。
 
 **技术栈**：Java 17 · Spring Boot 3.3 · Vue 3 · Milvus 2.4 · MySQL 8 · Redis 7 · MinIO · DashScope (通义千问)
 
 ---
+<img width="1273" height="666" alt="image" src="https://github.com/user-attachments/assets/e02dfa53-9865-403f-95ca-e32e15b5b85b" />
+
+<img width="2542" height="1350" alt="image" src="https://github.com/user-attachments/assets/58d68a69-221b-4089-a6d5-27172962cfa4" />
 
 ## 功能模块
 
